@@ -1,3 +1,11 @@
+// Define layers in correct order - PrimeNG should come after Bootstrap
+@layer bootstrap,primeNG;
+
+// Theme file should be imported first
+@import "bootstrap/dist/css/bootstrap.min.css" layer(bootstrap); 
+@import "primeng/resources/themes/lara-light-blue/theme.css" layer(primeNG);
+@import "primeng/resources/primeng.min.css" layer(primeNG);
+
 /* You can add global styles to this file, and also import other style files */
 * {
   margin: 0;
@@ -56,6 +64,6 @@ input, select, textarea, button {
 ::-webkit-scrollbar-thumb:hover {
   background: #666;
 }
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
