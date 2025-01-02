@@ -4,13 +4,15 @@ import { LoginComponent } from './login/login.component';
 import { TravelListComponent } from './travel-list/travel-list.component';
 import { TravelDetailsComponent } from './travel-details/travel-details.component';
 import { ItinerariesComponent } from './itineraries/itineraries.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'travel-list', component: TravelListComponent },
+  { path: 'travel-list', component: TravelListComponent, canActivate: [AuthGuard] },
   { 
     path: 'travel-form', 
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'details', pathMatch: 'full' },
       { path: 'details', component: TravelDetailsComponent },
