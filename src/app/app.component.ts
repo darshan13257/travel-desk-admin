@@ -9,6 +9,7 @@ import { filter } from 'rxjs/operators';
 })
 export class AppComponent {
   showSidebar = false;
+  isLoginPage = false;
 
   constructor(private router: Router) {
     this.router.events.pipe(
@@ -16,6 +17,8 @@ export class AppComponent {
     ).subscribe((event: any) => {
       // Show sidebar only on travel-form routes
       this.showSidebar = event.url.includes('/travel-form');
+      // Check if current route is login
+      this.isLoginPage = event.url.includes('/login');
     });
   }
 }

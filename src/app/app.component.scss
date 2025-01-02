@@ -6,7 +6,14 @@
   .content-wrapper {
     display: flex;
     flex: 1;
-    margin-top: 64px; // Adjust based on your navbar height
+    
+    &:not(.login-page) {
+      margin-top: 64px; // Adjust based on your navbar height
+    }
+
+    &.login-page {
+      margin-top: 0;
+    }
 
     app-sidebar {
       width: 250px;
@@ -17,7 +24,6 @@
     main {
       flex: 1;
       background: #f8fafc;
-      padding: 24px;
       overflow-y: auto;
 
       &.full-width {

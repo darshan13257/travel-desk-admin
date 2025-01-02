@@ -1,12 +1,13 @@
 <div class="app-container">
-  <app-navbar></app-navbar>
+  <!-- Show navbar only when not on login route -->
+  <app-navbar *ngIf="!isLoginPage"></app-navbar>
   
-  <div class="content-wrapper">
-    <!-- Show sidebar only on travel-form routes -->
-    <app-sidebar *ngIf="showSidebar"></app-sidebar>
+  <div class="content-wrapper" [class.login-page]="isLoginPage">
+    <!-- Show sidebar only on travel-form routes and not on login -->
+    <app-sidebar *ngIf="showSidebar && !isLoginPage"></app-sidebar>
     
     <!-- Main content area - full width when no sidebar -->
-    <main [class.full-width]="!showSidebar">
+    <main [class.full-width]="!showSidebar || isLoginPage">
       <router-outlet></router-outlet>
     </main>
   </div>
