@@ -45,7 +45,7 @@ export class TravelBookingService {
   updateBooking(id: number, booking: TravelBooking): Observable<TravelBooking> {
     if (this.useMockData) {
       const index = MOCK_TRAVEL_BOOKINGS.findIndex(b => b.BookingID === id);
-      if (index !== -1) {
+      if (index !== -1) { 
         MOCK_TRAVEL_BOOKINGS[index] = { ...booking, BookingID: id };
         return of(MOCK_TRAVEL_BOOKINGS[index]);
       }

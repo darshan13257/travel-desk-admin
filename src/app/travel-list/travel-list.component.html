@@ -1,7 +1,7 @@
 <div class="travel-list-container">
   <div class="header">
     <h2>Travel List</h2>
-    <button mat-raised-button color="primary" (click)="onNewTravel()">
+    <button class="btn-primary" (click)="onNewTravel()">
       <i class="fas fa-plus"></i> New Travel
     </button>
   </div>
@@ -13,8 +13,17 @@
         type="text" 
         placeholder="Search travels..."
         [(ngModel)]="searchTerm"
-        (ngModelChange)="filterBookings()"
+        (ngModelChange)="onSearchChange($event)"
       >
+    </div>
+
+    <div class="select-wrapper">
+      <select [(ngModel)]="selectedStatus" (change)="onStatusChange($event)">
+        <option *ngFor="let option of statusOptions" [value]="option.value">
+          {{option.label}}
+        </option>
+      </select>
+      <i class="fas fa-chevron-down"></i>
     </div>
   </div>
 
@@ -42,7 +51,11 @@
           <td>{{booking.StartDate | date:'mediumDate'}}</td>
           <td>{{booking.EndDate | date:'mediumDate'}}</td>
           <td>{{booking.TotalCost | currency:'USD':'symbol'}}</td>
-          <td>{{getTravelStatus(booking)}}</td>
+          <td>
+            <span class="status-badge" [class]="getStatusClass(getTravelStatus(booking))">
+              {{getTravelStatus(booking) | titlecase}}
+            </span>
+          </td>
           <td class="actions">
             <button mat-icon-button (click)="onEditTravel(booking.BookingID!)">
               <i class="fas fa-edit"></i>

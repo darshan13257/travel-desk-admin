@@ -29,5 +29,5 @@ export class SidebarComponent {
 
   isActive(route: string): boolean {
     return this.router.url === route;
-  }
+  } 
 } 

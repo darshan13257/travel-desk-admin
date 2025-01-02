@@ -12,6 +12,15 @@ export class TravelListComponent implements OnInit {
   bookings: TravelBooking[] = [];
   filteredBookings: TravelBooking[] = [];
   searchTerm: string = '';
+  selectedStatus: string = 'all';
+
+  statusOptions = [
+    { value: 'all', label: 'All' },
+    { value: 'ongoing', label: 'Ongoing' },
+    { value: 'future', label: 'Future' },
+    { value: 'completed', label: 'Completed' },
+    { value: 'cancelled', label: 'Cancelled' }
+  ];
 
   constructor(
     private router: Router,
@@ -24,12 +33,8 @@ export class TravelListComponent implements OnInit {
 
   loadBookings(): void {
     this.travelBookingService.getBookings().subscribe(data => {
-      this.bookings = data.map(booking => ({
-        ...booking,
-        StartDate: new Date(booking.StartDate),
-        EndDate: new Date(booking.EndDate)
-      }));
-      this.filterBookings();
+      this.bookings = data;
+      this.applyFilters();
     });
   }
 
@@ -51,30 +56,69 @@ export class TravelListComponent implements OnInit {
     }
   }
 
-  filterBookings(): void {
-    if (!this.searchTerm) {
-      this.filteredBookings = this.bookings;
-      return;
+  onStatusChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    this.selectedStatus = value;
+    this.applyFilters();
+  }
+
+  onSearchChange(value: string): void {
+    this.searchTerm = value;
+    this.applyFilters();
+  }
+
+  private applyFilters(): void {
+    let filtered = [...this.bookings];
+
+    // Apply search filter
+    if (this.searchTerm) {
+      const search = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(booking =>
+        booking.Destination.toLowerCase().includes(search) ||
+        booking.Source.toLowerCase().includes(search) ||
+        booking.Purpose.toLowerCase().includes(search)
+      );
     }
 
-    const search = this.searchTerm.toLowerCase();
-    this.filteredBookings = this.bookings.filter(booking =>
-      booking.Destination.toLowerCase().includes(search) ||
-      booking.Source.toLowerCase().includes(search) ||
-      booking.Purpose.toLowerCase().includes(search)
-    );
+    // Apply status filter
+    if (this.selectedStatus !== 'all') {
+      const today = new Date();
+      filtered = filtered.filter(booking => {
+        const status = this.getTravelStatus(booking);
+        return status.toLowerCase() === this.selectedStatus;
+      });
+    }
+
+    this.filteredBookings = filtered;
   }
 
   getTravelStatus(booking: TravelBooking): string {
     const today = new Date();
+    const startDate = new Date(booking.StartDate);
+    const endDate = new Date(booking.EndDate);
     
-    if (booking.StartDate <= today && booking.EndDate >= today) {
-      return 'In Progress';
-    } else if (booking.StartDate > today) {
-      return 'Upcoming';
-    } else if (booking.EndDate < today) {
-      return booking.Status !== 'Cancelled' ? 'Completed' : 'Cancelled';
+    if (booking.Status === 'Cancelled') {
+      return 'cancelled';
     }
-    return booking.Status;
+    
+    if (startDate <= today && endDate >= today) {
+      return 'ongoing';
+    } else if (startDate > today) {
+      return 'future';
+    } else if (endDate < today) {
+      return 'completed';
+    }
+    
+    return booking.Status.toLowerCase();
+  }
+
+  getStatusClass(status: string): string {
+    const statusMap: { [key: string]: string } = {
+      'ongoing': 'status-ongoing',
+      'future': 'status-future',
+      'completed': 'status-completed',
+      'cancelled': 'status-cancelled'
+    };
+    return statusMap[status.toLowerCase()] || '';
   }
 }
