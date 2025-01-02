@@ -24,6 +24,9 @@ export class TravelBookingService {
     return this.http.get<any[]>(`${this.apiUrl}/travelbookings/get_all_locations`);
   }
 
+  getItineraries(userId: number) {
+    return this.http.get<any[]>(`${this.apiUrl}/travelbookings/get_itineraries?user_id=${userId}`);
+  }
 
   createBooking(booking: TravelBooking, userId: number): Observable<TravelBookingResponse> {
     return this.http.post<TravelBookingResponse>(

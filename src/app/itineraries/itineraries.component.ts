@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { TravelBookingService } from '../services/travel-booking.service';
+import { Itinerary } from '../models/itinerary.model';
 import { ActivatedRoute } from '@angular/router';
 import { ItineraryService } from '../services/itinerary.service';
-import { Itinerary } from '../models/itinerary.model';
 
 @Component({
   selector: 'app-itineraries',
@@ -15,31 +16,42 @@ export class ItinerariesComponent implements OnInit {
   itineraries: Itinerary[] = [];
   filteredItineraries: Itinerary[] = [];
   searchTerm: string = '';
+  loading = false;
 
-  constructor(
+  constructor(private travelBookingService: TravelBookingService,
     private route: ActivatedRoute,
-    private itineraryService: ItineraryService
-  ) {}
+    private itineraryService: ItineraryService) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      if (params['id']) {
-        this.travelId = +params['id'];
-        this.loadItineraries();
+    this.loadItineraries();
+  }
+
+  loadItineraries(): void {
+    this.loading = true;
+    const userId = 1; // Get this from your auth service
+    this.travelBookingService.getItineraries(userId).subscribe({
+      next: (data) => {
+        this.itineraries = data;
+        this.filteredItineraries = data;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading itineraries:', error);
+        this.loading = false;
       }
     });
   }
 
-  loadItineraries(): void {
-    this.itineraryService.getItineraries(this.travelId).subscribe({
-      next: (data: any) => {
-        this.itineraries = data;
-        this.applyFilters();
-      },
-      error: (error) => {
-        console.error('Error loading itineraries:', error);
-      }
-    });
+  onSearchChange(term: string): void {
+    if (!term) {
+      this.filteredItineraries = this.itineraries;
+      return;
+    }
+
+    this.filteredItineraries = this.itineraries.filter(item => 
+      item.Activity.toLowerCase().includes(term.toLowerCase()) ||
+      item.Description.toLowerCase().includes(term.toLowerCase())
+    );
   }
 
   openItineraryModal(itinerary?: Itinerary): void {
@@ -47,25 +59,7 @@ export class ItinerariesComponent implements OnInit {
     this.showModal = true;
   }
 
-  onSearchChange(value: string): void {
-    this.searchTerm = value;
-    this.applyFilters();
-  }
 
-  applyFilters(): void {
-    if (this.searchTerm) {
-      const search = this.searchTerm.toLowerCase();
-      this.filteredItineraries = this.itineraries.filter(item =>
-        item.Description.toLowerCase().includes(search) ||
-        item.Type.toLowerCase().includes(search) ||
-        (item.Location?.toLowerCase().includes(search)) ||
-        (item.FromDestination?.toLowerCase().includes(search)) ||
-        (item.ToDestination?.toLowerCase().includes(search))
-      );
-    } else {
-      this.filteredItineraries = [...this.itineraries];
-    }
-  }
 
   deleteItinerary(id: number): void {
     if (confirm('Are you sure you want to delete this itinerary?')) {
@@ -77,8 +71,8 @@ export class ItinerariesComponent implements OnInit {
   }
 
   onSaveItinerary(itinerary: Itinerary): void {
-    if (this.selectedItinerary?.Id) {
-      this.itineraryService.updateItinerary(this.selectedItinerary.Id, itinerary).subscribe({
+    if (this.selectedItinerary?.ItineraryID) {
+      this.itineraryService.updateItinerary(this.selectedItinerary.ItineraryID, itinerary).subscribe({
         next: () => {
           this.loadItineraries();
           this.showModal = false;

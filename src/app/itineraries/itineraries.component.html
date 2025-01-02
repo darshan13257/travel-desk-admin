@@ -19,34 +19,25 @@
     </div>
   </div>
 
-  <p-table [value]="filteredItineraries" [responsive]="true">
+  <!-- Show table when there are records -->
+  <p-table [value]="filteredItineraries" 
+           [responsive]="true"
+           *ngIf="filteredItineraries.length > 0">
     <ng-template pTemplate="header">
       <tr>
+        <th>Day</th>
         <th>Time</th>
-        <th>Type</th>
+        <th>Activity</th>
         <th>Description</th>
-        <th>Details</th>
         <th>Actions</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td>{{item.FromTime}} - {{item.ToTime}}</td>
-        <td>{{item.Type | titlecase}}</td>
+        <td>Day {{item.Day}}</td>
+        <td>{{item.StartTime}} - {{item.EndTime}}</td>
+        <td>{{item.Activity}}</td>
         <td>{{item.Description}}</td>
-        <td>
-          <ng-container [ngSwitch]="item.Type">
-            <span *ngSwitchCase="'traveling'">
-              {{item.FromDestination}} to {{item.ToDestination}} ({{item.TravelBy}})
-            </span>
-            <span *ngSwitchCase="'stay'">
-              {{item.Location}} (Booking: {{item.BookingId}})
-            </span>
-            <span *ngSwitchCase="'miscellaneous'">
-              {{item.Location}}
-            </span>
-          </ng-container>
-        </td>
         <td>
           <button pButton 
                   icon="pi pi-pencil" 
@@ -56,12 +47,23 @@
           <button pButton 
                   icon="pi pi-trash" 
                   class="p-button-text p-button-danger" 
-                  (click)="deleteItinerary(item.Id)">
+                  (click)="deleteItinerary(item.ItineraryID)">
           </button>
         </td>
       </tr>
     </ng-template>
   </p-table>
+
+  <!-- Show this when no records found -->
+  <div *ngIf="filteredItineraries.length === 0" class="no-records">
+    <i class="pi pi-calendar"></i>
+    <p>No itineraries found</p>
+    <button pButton 
+            label="Add New Itinerary" 
+            icon="pi pi-plus" 
+            (click)="openItineraryModal()">
+    </button>
+  </div>
 
   <app-itinerary-modal
     [(visible)]="showModal"

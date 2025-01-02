@@ -110,7 +110,9 @@ export class TravelDetailsComponent implements OnInit {
 
   onSubmit(): void {
     if (this.travelForm.valid) {
-      const formData = this.travelForm.value;
+      const formData: any = this.travelForm.value;
+      formData['FromLocation'] = +formData.FromLocation
+      formData['ToLocation'] = +formData.FromLocation
       const userId = this.authService.getUserId(); // Get this from your auth service
 
       if (this.isEditMode && this.bookingId) {

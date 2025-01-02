@@ -1,17 +1,16 @@
 export type ItineraryType = 'traveling' | 'stay' | 'miscellaneous';
 
 export interface Itinerary {
-  Id?: number;
-  TravelId: number;
-  FromTime: string;
-  ToTime: string;
-  Type: ItineraryType;
   Description: string;
-  FromDestination?: string;
-  ToDestination?: string;
-  BookingId?: string;
-  TravelBy?: 'air' | 'road';
-  Location?: string;
+  ToLocation: number;
+  EndTime: string;
+  Activity: string;
+  BookingId: number;
+  ItineraryID: number;
+  FromLocation: number;
+  StartTime: string;
+  Day: number;
+  TravelId: number;
 }
 
 export interface ItineraryResponse {
@@ -28,19 +27,4 @@ export interface ItineraryResponse {
   Location: string | null;
 }
 
-// Helper function to convert ItineraryResponse to Itinerary
-export function convertToItinerary(response: ItineraryResponse): Itinerary {
-  return {
-    Id: response.Id,
-    TravelId: response.TravelId,
-    FromTime: response.FromTime,
-    ToTime: response.ToTime,
-    Type: response.Type as ItineraryType,
-    Description: response.Description,
-    FromDestination: response.FromDestination || undefined,
-    ToDestination: response.ToDestination || undefined,
-    BookingId: response.BookingId || undefined,
-    TravelBy: (response.TravelBy as 'air' | 'road') || undefined,
-    Location: response.Location || undefined
-  };
-} 
+// Hel
