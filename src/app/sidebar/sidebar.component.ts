@@ -11,17 +11,17 @@ export class SidebarComponent {
     {
       title: 'Travel Details',
       icon: 'fas fa-plane',
-      route: '/travel-list'
+      route: '/travel-form/details'
     },
     {
       title: 'Itineraries',
       icon: 'fas fa-route',
-      route: '/itineraries'
+      route: '/travel-form/details'
     },
     {
       title: 'Expense Tracking',
       icon: 'fas fa-receipt',
-      route: '/expenses'
+      route: '/travel-form/details'
     }
   ];
 
