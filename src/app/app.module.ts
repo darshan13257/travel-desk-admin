@@ -38,9 +38,9 @@ import { ItineraryModalComponent } from './itineraries/itinerary-modal/itinerary
 import { ItinerariesComponent } from './itineraries/itineraries.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavbarComponent } from './navbar/navbar.component';
-
+import { CardModule } from 'primeng/card';
 @NgModule({
-  declarations: [
+  declarations: [ 
     AppComponent,
     LoginComponent,
     NavbarComponent,
@@ -73,8 +73,10 @@ import { NavbarComponent } from './navbar/navbar.component';
     TableModule,
     DialogModule,
     CalendarModule,
-    DropdownModule
-
+    DropdownModule,
+    CalendarModule,
+    CardModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

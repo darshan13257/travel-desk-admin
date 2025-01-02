@@ -16,6 +16,11 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
+  getUserId(): number {
+    const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
+    return userDetails?.user_id;
+  }
+
   isLoggedIn(): boolean {
     return !!localStorage.getItem('access_token');
   }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TravelBookingService } from '../services/travel-booking.service';
-import { TravelBooking, TravelBookingResponse } from '../models/travel-booking.model';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-travel-details',
@@ -12,19 +12,38 @@ import { TravelBooking, TravelBookingResponse } from '../models/travel-booking.m
 export class TravelDetailsComponent implements OnInit {
   travelForm!: FormGroup;
   isEditMode = false;
-  travelId?: number;
+  bookingId?: number;
+  loading = false;
+  
+  travelModes = [
+    { name: 'Flight', value: 'FLIGHT' },
+    { name: 'Train', value: 'TRAIN' },
+    { name: 'Bus', value: 'BUS' },
+    { name: 'Car', value: 'CAR' }
+  ];
+
+  locations = [
+    { id: 1, name: 'Mumbai' },
+    { id: 2, name: 'Delhi' },
+    { id: 3, name: 'Bangalore' },
+    { id: 4, name: 'Chennai' },
+    { id: 5, name: 'Kolkata' }
+  ];
 
   constructor(
     private fb: FormBuilder,
     private travelBookingService: TravelBookingService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {
     this.initForm();
   }
 
   private initForm(): void {
     this.travelForm = this.fb.group({
+      EmployeeID: [0],
+      AdminID: [0],
       TravelMode: ['', Validators.required],
       ProviderName: ['', Validators.required],
       BookingReference: ['', Validators.required],
@@ -32,8 +51,9 @@ export class TravelDetailsComponent implements OnInit {
       EndDate: ['', Validators.required],
       TotalCost: [0, Validators.required],
       Status: ['To be approved'],
-      FromLocationId: ['', Validators.required],
-      ToLocationId: ['', Validators.required]
+      CreatedAt: [new Date().toISOString()],
+      FromLocation: [0, Validators.required],
+      ToLocation: [0, Validators.required]
     });
   }
 
@@ -41,18 +61,20 @@ export class TravelDetailsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
         this.isEditMode = true;
-        this.travelId = +params['id'];
-        this.loadTravelDetails();
+        this.bookingId = +params['id'];
+        this.loadBookingDetails();
       }
     });
   }
 
-  loadTravelDetails(): void {
-    if (this.travelId) {
-      this.travelBookingService.getBooking(this.travelId).subscribe({
-        next: (response: TravelBookingResponse) => {
+  loadBookingDetails(): void {
+    if (this.bookingId) {
+      this.travelBookingService.getBooking(this.bookingId).subscribe({
+        next: (response) => {
           const booking = response.Booking;
           this.travelForm.patchValue({
+            EmployeeID: 0, // Set appropriate value
+            AdminID: 0, // Set appropriate value
             TravelMode: booking.TravelMode,
             ProviderName: booking.ProviderName,
             BookingReference: booking.BookingReference,
@@ -60,12 +82,14 @@ export class TravelDetailsComponent implements OnInit {
             EndDate: booking.EndDate,
             TotalCost: booking.TotalCost,
             Status: booking.Status,
-            FromLocationId: booking.FromLocation.Id,
-            ToLocationId: booking.ToLocation.Id
+            CreatedAt: booking.CreatedAt,
+            FromLocation: booking.FromLocation.Id,
+            ToLocation: booking.ToLocation.Id
           });
         },
-        error: (error: any) => {
-          console.error('Error loading travel details:', error);
+        error: (error) => {
+          console.error('Error loading booking details:', error);
+          // Handle error (show message to user)
         }
       });
     }
@@ -73,23 +97,34 @@ export class TravelDetailsComponent implements OnInit {
 
   onSubmit(): void {
     if (this.travelForm.valid) {
-      const bookingData: TravelBooking = this.travelForm.value;
-      
-      const request = this.isEditMode && this.travelId
-        ? this.travelBookingService.updateBooking(this.travelId, bookingData)
-        : this.travelBookingService.createBooking(bookingData);
+      const formData = this.travelForm.value;
+      const userId = this.authService.getUserId(); // Get this from your auth service
 
-      request.subscribe({
-        next: (response: TravelBookingResponse) => {
-          this.router.navigate(['../itineraries'], { 
-            relativeTo: this.route,
-            queryParams: { id: response.Booking.TravelId }
-          });
-        },
-        error: (error: any) => {
-          console.error('Error saving travel booking:', error);
-        }
-      });
+      if (this.isEditMode && this.bookingId) {
+        this.travelBookingService.updateBooking(this.bookingId, formData).subscribe({
+          next: () => this.handleSuccess(),
+          error: (error) => this.handleError(error)
+        });
+      } else {
+        this.travelBookingService.createBooking(formData, userId).subscribe({
+          next: () => this.handleSuccess(),
+          error: (error) => this.handleError(error)
+        });
+      }
     }
+  }
+
+  private handleSuccess(): void {
+    // Navigate back to list or show success message
+    this.router.navigate(['/travel-list']);
+  }
+
+  private handleError(error: any): void {
+    console.error('Error saving booking:', error);
+    // Show error message to user
+  }
+
+  onCancel(): void {
+    this.router.navigate(['/travel-list']);
   }
 } 

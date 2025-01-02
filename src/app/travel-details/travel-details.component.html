@@ -1,50 +1,110 @@
 <div class="travel-details-container">
-  
-  <form [formGroup]="travelForm" (ngSubmit)="onSubmit()" class="travel-form">
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="travelType">Travel Type</label>
-        <select id="travelType" formControlName="TravelType">
-          <option value="">Select Type</option>
-          <option value="Domestic">Domestic</option>
-          <option value="International">International</option>
-        </select>
+  <div class="form-card">
+    <h2>{{ isEditMode ? 'Edit Travel Booking' : 'Create Travel Booking' }}</h2>
+    
+    <form [formGroup]="travelForm" (ngSubmit)="onSubmit()" class="travel-form">
+      <div class="form-grid">
+        <!-- First row -->
+        <div class="form-group">
+          <label for="travelMode">Travel Mode*</label>
+          <div class="select-wrapper">
+            <select id="travelMode" formControlName="TravelMode">
+              <option value="">Select Travel Mode</option>
+              <option *ngFor="let mode of travelModes" [value]="mode.value">
+                {{mode.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="providerName">Provider Name*</label>
+          <div class="input-wrapper">
+            <i class="fas fa-building"></i>
+            <input id="providerName" 
+                   type="text" 
+                   formControlName="ProviderName"
+                   placeholder="Enter provider name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="bookingReference">Booking Reference*</label>
+          <div class="input-wrapper">
+            <i class="fas fa-ticket"></i>
+            <input id="bookingReference" 
+                   type="text" 
+                   formControlName="BookingReference"
+                   placeholder="Enter booking reference">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="startDate">Start Date*</label>
+          <div class="input-wrapper">
+            <i class="fas fa-calendar"></i>
+            <input id="startDate" 
+                   type="date" 
+                   formControlName="StartDate">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="endDate">End Date*</label>
+          <div class="input-wrapper">
+            <i class="fas fa-calendar"></i>
+            <input id="endDate" 
+                   type="date" 
+                   formControlName="EndDate">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="totalCost">Total Cost*</label>
+          <div class="input-wrapper">
+            <i class="fas fa-rupee-sign"></i>
+            <input id="totalCost" 
+                   type="number" 
+                   formControlName="TotalCost"
+                   placeholder="Enter total cost">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="fromLocation">From Location*</label>
+          <div class="select-wrapper">
+            <select id="fromLocation" formControlName="FromLocation">
+              <option value="">Select from location</option>
+              <option *ngFor="let location of locations" [value]="location.id">
+                {{location.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="toLocation">To Location*</label>
+          <div class="select-wrapper">
+            <select id="toLocation" formControlName="ToLocation">
+              <option value="">Select to location</option>
+              <option *ngFor="let location of locations" [value]="location.id">
+                {{location.name}}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="purpose">Purpose</label>
-        <input type="text" id="purpose" formControlName="Purpose">
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">
+          Cancel
+        </button>
+        <button type="submit" 
+                class="btn btn-primary" 
+                [disabled]="!travelForm.valid || loading">
+          {{ loading ? 'Saving...' : 'Save' }}
+        </button>
       </div>
-
-      <div class="form-group">
-        <label for="source">Source</label>
-        <input type="text" id="source" formControlName="Source">
-      </div>
-
-      <div class="form-group">
-        <label for="destination">Destination</label>
-        <input type="text" id="destination" formControlName="Destination">
-      </div>
-
-      <div class="form-group">
-        <label for="startDate">Start Date</label>
-        <input type="date" id="startDate" formControlName="StartDate">
-      </div>
-
-      <div class="form-group">
-        <label for="endDate">End Date</label>
-        <input type="date" id="endDate" formControlName="EndDate">
-      </div>
-
-      <div class="form-group full-width">
-        <label for="description">Description</label>
-        <textarea id="description" formControlName="Description" rows="4"></textarea>
-      </div>
-    </div>
-
-    <div class="form-actions">
-      <button type="button" class="secondary" routerLink="/travel-list">Cancel</button>
-      <button type="submit" [disabled]="!travelForm.valid">Next: Add Itineraries</button>
-    </div>
-  </form>
+    </form>
+  </div>
 </div> 

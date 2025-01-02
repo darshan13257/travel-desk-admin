@@ -9,7 +9,7 @@ import { filter } from 'rxjs/operators';
 })
 export class AppComponent {
   showSidebar = false;
-  isLoginPage = false;
+  isLoginPage = true;
 
   constructor(private router: Router) {
     this.router.events.pipe(

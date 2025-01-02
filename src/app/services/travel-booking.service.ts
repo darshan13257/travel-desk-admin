@@ -19,10 +19,14 @@ export class TravelBookingService {
     return this.http.get<TravelBookingResponse>(`${this.apiUrl}/travelbookings/get_travel_booking/${id}`);
   }
 
-  createBooking(booking: TravelBooking): Observable<TravelBookingResponse> {
-    return this.http.post<TravelBookingResponse>(`${this.apiUrl}/travelbookings/create`, booking);
-  }
 
+
+  createBooking(booking: TravelBooking, userId: number): Observable<TravelBookingResponse> {
+    return this.http.post<TravelBookingResponse>(
+      `${this.apiUrl}/travelbookings/create_travelbookings?user_id=${userId}`, 
+      booking
+    );
+  }
   updateBooking(id: number, booking: TravelBooking): Observable<TravelBookingResponse> {
     return this.http.put<TravelBookingResponse>(`${this.apiUrl}/travelbookings/update/${id}`, booking);
   }
