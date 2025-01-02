@@ -21,13 +21,7 @@ export class TravelDetailsComponent implements OnInit {
     { name: 'Car Rental', value: 'Car Rental' }
   ];
 
-  locations = [
-    { id: 1, name: 'Mumbai' },
-    { id: 2, name: 'Delhi' },
-    { id: 3, name: 'Bangalore' },
-    { id: 4, name: 'Chennai' },
-    { id: 5, name: 'Kolkata' }
-  ];
+  locations: any[] = [];
 
   sponseredBy = [
     { label: 'Self', value: 1 },
@@ -67,6 +61,21 @@ export class TravelDetailsComponent implements OnInit {
         this.isEditMode = true;
         this.bookingId = +params['id'];
         this.loadBookingDetails();
+      }
+    });
+
+
+    this.loadLocations();
+  }
+
+  loadLocations(): void {
+    this.travelBookingService.getAllLocations().subscribe({
+      next: (locations) => {
+        this.locations = locations;
+      },
+      error: (error) => {
+        console.error('Error loading locations:', error);
+        // Handle error (show message to user)
       }
     });
   }

@@ -78,8 +78,8 @@
           <div class="select-wrapper">
             <select id="fromLocation" formControlName="FromLocation">
               <option value="">Select from location</option>
-              <option *ngFor="let location of locations" [value]="location.id">
-                {{location.name}}
+              <option *ngFor="let location of locations" [value]="location.Id">
+                {{location.CityName}}
               </option>
             </select>
           </div>
@@ -90,8 +90,8 @@
           <div class="select-wrapper">
             <select id="toLocation" formControlName="ToLocation">
               <option value="">Select to location</option>
-              <option *ngFor="let location of locations" [value]="location.id">
-                {{location.name}}
+              <option *ngFor="let location of locations" [value]="location.Id">
+                {{location.CityName}}
               </option>
             </select>
           </div>

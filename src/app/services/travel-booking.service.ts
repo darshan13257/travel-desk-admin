@@ -19,6 +19,10 @@ export class TravelBookingService {
     return this.http.get<TravelBookingResponse>(`${this.apiUrl}/travelbookings/get_travel_booking/${id}`);
   }
 
+   // Add this new method
+   getAllLocations(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/travelbookings/get_all_locations`);
+  }
 
 
   createBooking(booking: TravelBooking, userId: number): Observable<TravelBookingResponse> {
