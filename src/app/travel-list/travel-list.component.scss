@@ -1,6 +1,9 @@
 .travel-list-container {
+  width: 100%;
+  max-width: 100%;
   padding: 24px;
-  
+  margin: 0;
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -109,7 +112,7 @@
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
+    overflow-x: auto;
 
     table {
       width: 100%;

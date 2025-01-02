@@ -8,13 +8,14 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  showNavbar: boolean = false;
+  showSidebar = false;
 
   constructor(private router: Router) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      this.showNavbar = !event.url.includes('/login');
+      // Show sidebar only on travel-form routes
+      this.showSidebar = event.url.includes('/travel-form');
     });
   }
 }
