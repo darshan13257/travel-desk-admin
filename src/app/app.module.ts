@@ -70,7 +70,11 @@ import { NavbarComponent } from './navbar/navbar.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
-    TableModule
+    TableModule,
+    DialogModule,
+    CalendarModule,
+    DropdownModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
