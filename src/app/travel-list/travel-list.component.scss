@@ -15,6 +15,41 @@
       color: #2d3748;
       margin: 0;
     }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 20px;
+      height: 42px;
+      background: #4299e1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      i {
+        font-size: 14px;
+      }
+
+      &:hover {
+        background: #3182ce;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(66, 153, 225, 0.2);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+      }
+    }
   }
 
   .filters {
