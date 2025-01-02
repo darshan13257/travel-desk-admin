@@ -1,0 +1,22 @@
+<div class="travel-form-container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Travel Form</h3>
+    </div>
+    <nav class="sidebar-nav">
+      <a *ngFor="let item of menuItems"
+         [routerLink]="item.route"
+         routerLinkActive="active"
+         class="nav-item">
+        <i [class]="item.icon"></i>
+        <span>{{ item.title }}</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+</div> 

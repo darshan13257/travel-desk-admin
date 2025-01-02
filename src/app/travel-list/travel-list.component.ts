@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TravelBookingService } from '../services/travel-booking.service';
 import { TravelBooking } from '../models/travel-booking.model';
-import { TravelModalComponent } from './travel-modal/travel-modal.component';
 
 @Component({
   selector: 'app-travel-list',
@@ -12,11 +11,10 @@ import { TravelModalComponent } from './travel-modal/travel-modal.component';
 export class TravelListComponent implements OnInit {
   bookings: TravelBooking[] = [];
   filteredBookings: TravelBooking[] = [];
-  statusFilter: string = 'all';
-  searchDestination: string = '';
+  searchTerm: string = '';
 
   constructor(
-    private dialog: MatDialog,
+    private router: Router,
     private travelBookingService: TravelBookingService
   ) {}
 
@@ -25,84 +23,23 @@ export class TravelListComponent implements OnInit {
   }
 
   loadBookings(): void {
-    this.travelBookingService.getBookings().subscribe(
-      bookings => {
-        this.bookings = bookings;
-        this.applyFilters();
-      }
-    );
-  }
-
-  onSearchChange(value: string): void {
-    this.searchDestination = value;
-    this.applyFilters();
-  }
-
-  onStatusFilterChange(value: string): void {
-    this.statusFilter = value;
-    this.applyFilters();
-  }
-
-  applyFilters(): void {
-    let filtered = [...this.bookings];
-
-    // Apply status filter
-    if (this.statusFilter !== 'all') {
-      filtered = filtered.filter(booking => {
-        const today = new Date();
-        switch (this.statusFilter) {
-          case 'ongoing':
-            return booking.StartDate <= today && booking.EndDate >= today;
-          case 'future':
-            return booking.StartDate > today;
-          case 'completed':
-            return booking.EndDate < today && booking.Status !== 'Cancelled';
-          case 'cancelled':
-            return booking.Status === 'Cancelled';
-          default:
-            return true;
-        }
-      });
-    }
-
-    // Apply destination search
-    if (this.searchDestination.trim()) {
-      const search = this.searchDestination.toLowerCase().trim();
-      filtered = filtered.filter(booking => 
-        booking.destination.toLowerCase().includes(search)
-      );
-    }
-
-    this.filteredBookings = filtered;
-  }
-
-  openNewBookingDialog(): void {
-    const dialogRef = this.dialog.open(TravelModalComponent, {
-      width: '800px',
-      data: { booking: null }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.travelBookingService.createBooking(result).subscribe(() => {
-          this.loadBookings();
-        });
-      }
+    this.travelBookingService.getBookings().subscribe(data => {
+      this.bookings = data.map(booking => ({
+        ...booking,
+        StartDate: new Date(booking.StartDate),
+        EndDate: new Date(booking.EndDate)
+      }));
+      this.filterBookings();
     });
   }
 
-  openEditBookingDialog(booking: TravelBooking): void {
-    const dialogRef = this.dialog.open(TravelModalComponent, {
-      width: '800px',
-      data: { booking }
-    });
+  onNewTravel(): void {
+    this.router.navigate(['/travel-form']);
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && booking.BookingID) {
-        this.travelBookingService.updateBooking(booking.BookingID, result).subscribe(() => {
-          this.loadBookings();
-        });
-      }
+  onEditTravel(bookingId: number): void {
+    this.router.navigate(['/travel-form'], {
+      queryParams: { id: bookingId }
     });
   }
 
@@ -112,5 +49,32 @@ export class TravelListComponent implements OnInit {
         this.loadBookings();
       });
     }
+  }
+
+  filterBookings(): void {
+    if (!this.searchTerm) {
+      this.filteredBookings = this.bookings;
+      return;
+    }
+
+    const search = this.searchTerm.toLowerCase();
+    this.filteredBookings = this.bookings.filter(booking =>
+      booking.Destination.toLowerCase().includes(search) ||
+      booking.Source.toLowerCase().includes(search) ||
+      booking.Purpose.toLowerCase().includes(search)
+    );
+  }
+
+  getTravelStatus(booking: TravelBooking): string {
+    const today = new Date();
+    
+    if (booking.StartDate <= today && booking.EndDate >= today) {
+      return 'In Progress';
+    } else if (booking.StartDate > today) {
+      return 'Upcoming';
+    } else if (booking.EndDate < today) {
+      return booking.Status !== 'Cancelled' ? 'Completed' : 'Cancelled';
+    }
+    return booking.Status;
   }
 }

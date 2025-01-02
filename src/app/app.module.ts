@@ -4,8 +4,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
+
+// Material Imports
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,11 +22,11 @@ import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { TravelListComponent } from './travel-list/travel-list.component';
-import { TravelModalComponent } from './travel-list/travel-modal/travel-modal.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { TravelDetailsComponent } from './travel-details/travel-details.component';
+import { TravelFormLayoutComponent } from './travel-form/travel-form-layout.component';
 import { ItinerariesComponent } from './itineraries/itineraries.component';
 import { ItineraryModalComponent } from './itineraries/itinerary-modal/itinerary-modal.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -26,11 +35,11 @@ import { ItineraryModalComponent } from './itineraries/itinerary-modal/itinerary
     NavbarComponent,
     FooterComponent,
     TravelListComponent,
-    TravelModalComponent,
-    SidebarComponent,
-    ClickOutsideDirective,
+    TravelDetailsComponent,
+    TravelFormLayoutComponent,
     ItinerariesComponent,
-    ItineraryModalComponent
+    ItineraryModalComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
@@ -40,8 +49,16 @@ import { ItineraryModalComponent } from './itineraries/itinerary-modal/itinerary
     CommonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    RouterModule,
+    // Material Modules
     MatDialogModule,
-    RouterModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

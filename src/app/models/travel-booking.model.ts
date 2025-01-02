@@ -1,14 +1,15 @@
 export interface TravelBooking {
   BookingID?: number;
-  EmployeeID: number;
-  AdminID: number;
-  TravelMode: 'Flight' | 'Hotel' | 'Car Rental';
-  ProviderName: string;
-  BookingReference: string;
-  destination: string;
+  TravelId?: number;
+  TravelType: string;
+  TravelMode?: string;
+  Purpose: string;
+  Source: string;
+  Destination: string;
+  ProviderName?: string;
   StartDate: Date;
   EndDate: Date;
-  TotalCost: number;
-  Status: 'Booked' | 'Cancelled' | 'Completed';
-  CreatedAt?: Date;
+  Status: string;
+  Description?: string;
+  TotalCost?: number;
 } 

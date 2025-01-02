@@ -1,0 +1,51 @@
+<div class="travel-details-container">
+  <h2>Travel Details</h2>
+  
+  <form [formGroup]="travelForm" (ngSubmit)="onSubmit()" class="travel-form">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="travelType">Travel Type</label>
+        <select id="travelType" formControlName="TravelType">
+          <option value="">Select Type</option>
+          <option value="Domestic">Domestic</option>
+          <option value="International">International</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="purpose">Purpose</label>
+        <input type="text" id="purpose" formControlName="Purpose">
+      </div>
+
+      <div class="form-group">
+        <label for="source">Source</label>
+        <input type="text" id="source" formControlName="Source">
+      </div>
+
+      <div class="form-group">
+        <label for="destination">Destination</label>
+        <input type="text" id="destination" formControlName="Destination">
+      </div>
+
+      <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" formControlName="StartDate">
+      </div>
+
+      <div class="form-group">
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" formControlName="EndDate">
+      </div>
+
+      <div class="form-group full-width">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="Description" rows="4"></textarea>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="secondary" routerLink="/travel-list">Cancel</button>
+      <button type="submit" [disabled]="!travelForm.valid">Next: Add Itineraries</button>
+    </div>
+  </form>
+</div> 

@@ -1,7 +1,7 @@
 <div class="travel-list-container">
   <div class="header">
-    <h2>Travel Bookings</h2>
-    <button mat-raised-button color="primary" (click)="openNewBookingDialog()">
+    <h2>Travel List</h2>
+    <button mat-raised-button color="primary" (click)="onNewTravel()">
       <i class="fas fa-plus"></i> New Travel
     </button>
   </div>
@@ -11,21 +11,10 @@
       <i class="fas fa-search"></i>
       <input 
         type="text" 
-        placeholder="Search by destination..."
-        [(ngModel)]="searchDestination"
-        (input)="onSearchChange($any($event.target).value)"
+        placeholder="Search travels..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="filterBookings()"
       >
-    </div>
-
-    <div class="status-filter">
-      <label>Status:</label>
-      <select [(ngModel)]="statusFilter" (change)="onStatusFilterChange($any($event.target).value)">
-        <option value="all">All Bookings</option>
-        <option value="ongoing">Ongoing</option>
-        <option value="future">Future</option>
-        <option value="completed">Completed</option>
-        <option value="cancelled">Cancelled</option>
-      </select>
     </div>
   </div>
 
@@ -33,7 +22,7 @@
     <table>
       <thead>
         <tr>
-          <th>Booking ID</th>
+          <th>ID</th>
           <th>Travel Mode</th>
           <th>Provider</th>
           <th>Destination</th>
@@ -49,13 +38,13 @@
           <td>{{booking.BookingID}}</td>
           <td>{{booking.TravelMode}}</td>
           <td>{{booking.ProviderName}}</td>
-          <td>{{booking.destination}}</td>
+          <td>{{booking.Destination}}</td>
           <td>{{booking.StartDate | date:'mediumDate'}}</td>
           <td>{{booking.EndDate | date:'mediumDate'}}</td>
           <td>{{booking.TotalCost | currency:'USD':'symbol'}}</td>
-          <td>{{booking.Status}}</td>
+          <td>{{getTravelStatus(booking)}}</td>
           <td class="actions">
-            <button mat-icon-button (click)="openEditBookingDialog(booking)">
+            <button mat-icon-button (click)="onEditTravel(booking.BookingID!)">
               <i class="fas fa-edit"></i>
             </button>
             <button mat-icon-button color="warn" (click)="deleteBooking(booking.BookingID!)">
