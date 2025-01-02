@@ -7,7 +7,7 @@ import { Itinerary, ItineraryResponse } from '../models/itinerary.model';
   providedIn: 'root'
 })
 export class ItineraryService {
-  private apiUrl = 'http://172.16.67.144:8009/itineraries';
+  private apiUrl = 'http://172.16.67.144:8009';
 
   constructor(private http: HttpClient) { }
 
@@ -16,7 +16,7 @@ export class ItineraryService {
   }
 
   createItinerary(itinerary: Itinerary): Observable<ItineraryResponse> {
-    return this.http.post<ItineraryResponse>(`${this.apiUrl}/create`, itinerary);
+    return this.http.post<ItineraryResponse>(`${this.apiUrl}/travelbookings/create_itineraries`, itinerary);
   }
 
   updateItinerary(id: number, itinerary: Itinerary): Observable<ItineraryResponse> {

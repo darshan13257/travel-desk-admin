@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Itinerary } from '../../models/itinerary.model';
+import { TravelBookingService } from '../../services/travel-booking.service';
 
 @Component({
   selector: 'app-itinerary-modal',
@@ -12,7 +13,7 @@ export class ItineraryModalComponent implements OnInit {
   @Input() isEditMode = false;
   @Input() itinerary?: Itinerary;
   @Output() visibleChange = new EventEmitter<boolean>();
-  @Output() save = new EventEmitter<Itinerary>();
+  @Output() save = new EventEmitter<any>();
 
   itineraryForm!: FormGroup;
 
@@ -22,12 +23,14 @@ export class ItineraryModalComponent implements OnInit {
     { value: 'miscellaneous', label: 'Miscellaneous' }
   ];
 
+  locations: any[] = [];
+
   travelByOptions = [
     { value: 'air', label: 'By Air' },
     { value: 'road', label: 'By Road' }
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private travelBookingService: TravelBookingService) {
     this.initForm();
   }
 
@@ -39,6 +42,8 @@ export class ItineraryModalComponent implements OnInit {
     this.itineraryForm.get('Type')?.valueChanges.subscribe(type => {
       this.updateFormValidators(type);
     });
+
+    this.loadLocations();
   }
 
   private initForm(): void {
@@ -87,11 +92,43 @@ export class ItineraryModalComponent implements OnInit {
 
   onSubmit(): void {
     if (this.itineraryForm.valid) {
-      this.save.emit(this.itineraryForm.value);
+      const formData = this.itineraryForm.value;
+      
+      // Format time values to HH:mm
+      const formatTime = (date: Date): string => {
+        return date ? `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}` : '';
+      };
+
+      // Map form data to API format
+      const apiData = {
+        TravelId: 1,
+        BookingId: 1,
+        Day: 1,
+        Activity: formData.Type,
+        StartTime: formatTime(formData.FromTime),
+        EndTime: formatTime(formData.ToTime),
+        FromLocation: formData.Type === 'traveling' ? formData.FromDestination : formData.Location,
+        ToLocation: formData.Type === 'traveling' ? formData.ToDestination : formData.Location,
+        Description: formData.Description
+      };
+
+      this.save.emit(apiData);
       this.visible = false;
       this.visibleChange.emit(false);
     }
   }
+
+  loadLocations(): void {
+    this.travelBookingService.getAllLocations().subscribe({
+      next: (locations) => {
+        this.locations = locations;
+      },
+      error: (error) => {
+        console.error('Error loading locations:', error);
+      }
+    });
+  }
+
 
   onCancel(): void {
     this.visible = false;

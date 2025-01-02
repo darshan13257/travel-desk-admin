@@ -64,23 +64,29 @@
         <ng-container *ngSwitchCase="'traveling'">
           <div class="p-grid">
             <div class="p-col-6">
-              <div class="field">
-                <label for="fromDest">From Destination</label>
-                <input 
-                  id="fromDest"
-                  type="text" 
-                  pInputText 
-                  formControlName="FromDestination">
+              <div class="form-group">
+                <label for="fromDestination">From Destination*</label>
+                <div class="select-wrapper">
+                  <select id="fromDestination" formControlName="FromDestination">
+                    <option value="">Select from destination</option>
+                    <option *ngFor="let location of locations" [ngValue]="location.Id">
+                      {{location.CityName}}
+                    </option>
+                  </select>
+                </div>
               </div>
             </div>
             <div class="p-col-6">
-              <div class="field">
-                <label for="toDest">To Destination</label>
-                <input 
-                  id="toDest"
-                  type="text" 
-                  pInputText 
-                  formControlName="ToDestination">
+              <div class="form-group">
+                <label for="toDestination">To Destination*</label>
+                <div class="select-wrapper">
+                  <select id="toDestination" formControlName="ToDestination">
+                    <option value="">Select to destination</option>
+                    <option *ngFor="let location of locations" [ngValue]="location.Id">
+                      {{location.CityName}}
+                    </option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>

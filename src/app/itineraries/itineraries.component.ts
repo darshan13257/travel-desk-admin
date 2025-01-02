@@ -24,6 +24,7 @@ export class ItinerariesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadItineraries();
+    this.travelId = +localStorage.getItem('travelId')!;
   }
 
   loadItineraries(): void {
@@ -70,7 +71,7 @@ export class ItinerariesComponent implements OnInit {
     }
   }
 
-  onSaveItinerary(itinerary: Itinerary): void {
+  onSaveItinerary(itinerary: any): void {
     if (this.selectedItinerary?.ItineraryID) {
       this.itineraryService.updateItinerary(this.selectedItinerary.ItineraryID, itinerary).subscribe({
         next: () => {
@@ -80,7 +81,13 @@ export class ItinerariesComponent implements OnInit {
         error: (error) => console.error('Error updating itinerary:', error)
       });
     } else {
-      this.itineraryService.createItinerary({ ...itinerary, TravelId: this.travelId }).subscribe({
+      const apiData = {
+        ...itinerary,
+        TravelId: this.travelId || 1,
+        BookingId: 1 // Set this based on your needs
+      };
+      
+      this.itineraryService.createItinerary(apiData).subscribe({
         next: () => {
           this.loadItineraries();
           this.showModal = false;

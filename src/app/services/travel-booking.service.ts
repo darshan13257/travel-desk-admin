@@ -41,4 +41,8 @@ export class TravelBookingService {
   deleteBooking(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/travelbookings/delete/${id}`);
   }
+
+  createItinerary(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/travelbookings/create_itineraries`, data);
+  }
 } 

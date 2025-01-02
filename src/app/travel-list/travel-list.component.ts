@@ -42,9 +42,11 @@ export class TravelListComponent implements OnInit {
     this.router.navigate(['/travel-form']);
   }
 
-  onEditTravel(bookingId: number): void {
+  onEditTravel(item: TravelBookingResponse): void {
+    localStorage.setItem('travelId', item.Booking.TravelId.toString());
+
     this.router.navigate(['/travel-form'], {
-      queryParams: { id: bookingId }
+      queryParams: { id: item.Booking.TravelId }
     });
   }
 
