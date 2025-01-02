@@ -16,7 +16,7 @@ export class SidebarComponent {
     {
       title: 'Itineraries',
       icon: 'fas fa-route',
-      route: '/travel-form/details'
+      route: '/travel-form/itineraries'
     },
     {
       title: 'Expense Tracking',

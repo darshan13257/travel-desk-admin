@@ -25,6 +25,7 @@ import { TravelListComponent } from './travel-list/travel-list.component';
 import { TravelDetailsComponent } from './travel-details/travel-details.component';
 import { TravelFormLayoutComponent } from './travel-form/travel-form-layout.component';
 import { ItinerariesComponent } from './itineraries/itineraries.component';
+
 import { ItineraryModalComponent } from './itineraries/itinerary-modal/itinerary-modal.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 

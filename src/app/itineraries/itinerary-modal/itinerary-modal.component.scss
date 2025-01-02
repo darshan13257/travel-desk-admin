@@ -1,69 +1,66 @@
 .modal-container {
   padding: 24px;
+  max-width: 600px;
 
   h2 {
-    margin: 0 0 24px 0;
+    margin: 0 0 20px;
     color: #2d3748;
     font-size: 1.5rem;
   }
 
-  .booking-form {
-    .form-grid {
+  .form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .form-row {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
 
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
+    mat-form-field {
+      width: 100%;
+    }
+  }
 
-        label {
-          font-size: 0.875rem;
-          font-weight: 500;
-          color: #4a5568;
-        }
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
 
-        input {
-          padding: 10px 12px;
-          border: 1px solid #e2e8f0;
-          border-radius: 6px;
-          font-size: 0.875rem;
-          color: #2d3748;
-          transition: all 0.2s;
-
-          &:focus {
-            outline: none;
-            border-color: #4299e1;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
-          }
-
-          &.ng-invalid.ng-touched {
-            border-color: #fc8181;
-          }
-        }
-      }
+    button {
+      min-width: 100px;
     }
   }
 }
 
-mat-dialog-actions {
-  padding: 24px 0 0 0;
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
+::ng-deep {
+  .mat-form-field-wrapper {
+    margin: 0;
+    padding: 0;
+  }
 
-  button {
-    min-width: 100px;
+  .mat-form-field-flex {
+    background: white;
+  }
+
+  .mat-form-field-underline {
+    display: none;
+  }
+
+  .mat-form-field-infix {
+    border-top: none;
   }
 }
 
-@media (max-width: 640px) {
-  .modal-container {
-    .booking-form {
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
+@media (max-width: 600px) {
+  .form-grid {
+    .form-row {
+      grid-template-columns: 1fr !important;
     }
   }
 } 

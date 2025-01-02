@@ -1,8 +1,8 @@
 <div class="itineraries-container">
   <div class="header">
     <h2>Itineraries</h2>
-    <button mat-raised-button color="primary" (click)="openNewItineraryDialog()">
-      <i class="fas fa-plus"></i> New Itinerary
+    <button mat-raised-button color="primary" (click)="openItineraryModal()">
+      <i class="fas fa-plus"></i> Add Itinerary
     </button>
   </div>
 
@@ -22,28 +22,36 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Travel ID</th>
-          <th>Day</th>
-          <th>Activity</th>
-          <th>Start Time</th>
-          <th>End Time</th>
+          <th>Time</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Details</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let itinerary of filteredItineraries">
-          <td>{{itinerary.ItineraryID}}</td>
-          <td>{{itinerary.TravelId}}</td>
-          <td>{{itinerary.Day}}</td>
-          <td>{{itinerary.Activity}}</td>
-          <td>{{itinerary.StartTime}}</td>
-          <td>{{itinerary.EndTime}}</td>
+        <tr *ngFor="let item of filteredItineraries">
+          <td>{{item.FromTime}} - {{item.ToTime}}</td>
+          <td>{{item.Type | titlecase}}</td>
+          <td>{{item.Description}}</td>
+          <td>
+            <ng-container [ngSwitch]="item.Type">
+              <span *ngSwitchCase="'traveling'">
+                {{item.FromDestination}} to {{item.ToDestination}} ({{item.TravelBy}})
+              </span>
+              <span *ngSwitchCase="'stay'">
+                {{item.Location}} (Booking: {{item.BookingId}})
+              </span>
+              <span *ngSwitchCase="'miscellaneous'">
+                {{item.Location}}
+              </span>
+            </ng-container>
+          </td>
           <td class="actions">
-            <button mat-icon-button (click)="openEditItineraryDialog(itinerary)">
+            <button mat-icon-button (click)="openItineraryModal(item)">
               <i class="fas fa-edit"></i>
             </button>
-            <button mat-icon-button color="warn" (click)="deleteItinerary(itinerary.ItineraryID!)">
+            <button mat-icon-button color="warn" (click)="deleteItinerary(item.Id)">
               <i class="fas fa-trash"></i>
             </button>
           </td>
