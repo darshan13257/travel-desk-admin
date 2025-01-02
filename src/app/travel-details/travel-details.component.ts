@@ -16,10 +16,9 @@ export class TravelDetailsComponent implements OnInit {
   loading = false;
   
   travelModes = [
-    { name: 'Flight', value: 'FLIGHT' },
-    { name: 'Train', value: 'TRAIN' },
-    { name: 'Bus', value: 'BUS' },
-    { name: 'Car', value: 'CAR' }
+    { name: 'Flight', value: 'Flight' },
+    { name: 'Train', value: 'Train' },
+    { name: 'Car Rental', value: 'Car Rental' }
   ];
 
   locations = [
