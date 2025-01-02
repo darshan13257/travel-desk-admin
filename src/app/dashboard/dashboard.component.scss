@@ -1,0 +1,356 @@
+// Variables
+$primary-color: #4299e1;
+$secondary-color: #667eea;
+$text-primary: #2d3748;
+$text-secondary: #4a5568;
+$border-color: #e2e8f0;
+$success-color: #48bb78;
+$warning-color: #ed8936;
+$background-light: #f8fafc;
+
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 250px 1fr 300px;
+  gap: 24px;
+  padding: 24px;
+  background-color: #f5f7fa;
+  min-height: calc(100vh - 64px);
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+// Sidebar Styling
+.sidebar {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  height: fit-content;
+
+  .quick-actions {
+    margin-bottom: 32px;
+
+    h3 {
+      font-size: 1.1rem;
+      color: $text-primary;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 12px 16px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+      color: white;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      i {
+        font-size: 1.1rem;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
+      }
+    }
+  }
+
+  .travel-stats {
+    h3 {
+      font-size: 1.1rem;
+      color: $text-primary;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .stat-item {
+      background: $background-light;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+
+      span {
+        color: $text-secondary;
+        font-size: 0.9rem;
+      }
+
+      h4 {
+        color: $text-primary;
+        font-size: 1.5rem;
+        margin-top: 4px;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// Main Content Styling
+.main-content {
+  .welcome-section {
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+
+    .grid-item {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+      h3 {
+        font-size: 1.1rem;
+        color: $text-primary;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+    }
+
+    .upcoming-trips {
+      .trip-card {
+        background: $background-light;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+        border: 1px solid $border-color;
+
+        .trip-info {
+          h4 {
+            font-size: 1.1rem;
+            color: $text-primary;
+            margin-bottom: 8px;
+          }
+
+          p {
+            color: $text-secondary;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+          }
+
+          .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+
+            &.approved {
+              background: rgba($success-color, 0.1);
+              color: $success-color;
+            }
+          }
+        }
+
+        .trip-actions {
+          display: flex;
+          gap: 12px;
+          margin-top: 16px;
+
+          button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid $border-color;
+            background: white;
+            color: $text-secondary;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+              background: $background-light;
+              color: $primary-color;
+            }
+          }
+        }
+      }
+    }
+
+    .expense-tracker {
+      canvas {
+        width: 100%;
+        height: 300px;
+      }
+    }
+
+    .notifications {
+      .notification-item {
+        display: flex;
+        align-items: start;
+        padding: 16px;
+        border-bottom: 1px solid $border-color;
+
+        i {
+          color: $primary-color;
+          font-size: 1.2rem;
+          margin-right: 12px;
+          margin-top: 2px;
+        }
+
+        .notification-content {
+          p {
+            color: $text-primary;
+            margin-bottom: 4px;
+          }
+
+          span {
+            font-size: 0.8rem;
+            color: $text-secondary;
+          }
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+
+    .quick-booking {
+      .quick-booking-form {
+        .form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+          margin-bottom: 16px;
+
+          input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid $border-color;
+            border-radius: 8px;
+            font-size: 0.9rem;
+
+            &:focus {
+              outline: none;
+              border-color: $primary-color;
+              box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+            }
+          }
+        }
+
+        button {
+          width: 100%;
+          padding: 12px;
+          background: $primary-color;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background: darken($primary-color, 5%);
+            transform: translateY(-2px);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Right Sidebar Styling
+.right-sidebar {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  height: fit-content;
+
+  > div {
+    margin-bottom: 24px;
+    padding: 20px;
+    background: $background-light;
+    border-radius: 12px;
+    border: 1px solid $border-color;
+
+    h3 {
+      font-size: 1.1rem;
+      color: $text-primary;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1400px) {
+  .dashboard-container {
+    grid-template-columns: 220px 1fr 280px;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .dashboard-container {
+    grid-template-columns: 200px 1fr;
+    .right-sidebar {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .dashboard-container {
+    grid-template-columns: 1fr;
+    .sidebar {
+      display: none;
+    }
+  }
+
+  .main-content {
+    .grid-container {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard-container {
+    padding: 16px;
+  }
+
+  .main-content {
+    .welcome-section {
+      padding: 24px;
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+
+    .grid-container .grid-item {
+      padding: 16px;
+    }
+  }
+} 

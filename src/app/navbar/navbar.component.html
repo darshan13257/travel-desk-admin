@@ -1,0 +1,46 @@
+<nav class="navbar">
+  <div class="logo">
+    <i class="fas fa-plane"></i>
+    <span>Travel Desk</span>
+  </div>
+
+  <div class="nav-items">
+    <!-- <a routerLink="/travel-list" routerLinkActive="active">
+      <i class="fas fa-home"></i> Dashboard
+    </a>
+    <a routerLink="/travel-list" routerLinkActive="active">
+      <i class="fas fa-list"></i> Travel List
+    </a> -->
+    <!-- <a routerLink="/bookings">
+      <i class="fas fa-ticket-alt"></i> My Bookings
+    </a>
+    <a routerLink="/expenses">
+      <i class="fas fa-receipt"></i> Expenses
+    </a>
+    <a routerLink="/reports">
+      <i class="fas fa-chart-bar"></i> Reports
+    </a> -->
+  </div>
+
+  <div class="profile-section" (click)="onClickOutside($event)">
+    <div class="user-profile" (click)="toggleProfileMenu()">
+      <div class="avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <span>John Doe</span>
+      <i class="fas fa-chevron-down" [class.rotate]="showProfileMenu"></i>
+    </div>
+
+    <!-- Profile Overlay Menu -->
+    <div class="profile-menu" *ngIf="showProfileMenu">
+      <div class="menu-item" (click)="onEditProfile()">
+        <i class="fas fa-user-edit"></i>
+        <span>Edit Profile</span>
+      </div>
+      <div class="menu-item" (click)="onLogout()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </div>
+    </div>
+  </div>
+</nav> 

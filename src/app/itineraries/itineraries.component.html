@@ -1,0 +1,54 @@
+<div class="itineraries-container">
+  <div class="header">
+    <h2>Itineraries</h2>
+    <button mat-raised-button color="primary" (click)="openNewItineraryDialog()">
+      <i class="fas fa-plus"></i> New Itinerary
+    </button>
+  </div>
+
+  <div class="filters">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input 
+        type="text" 
+        placeholder="Search itineraries..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange($event)"
+      >
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Travel ID</th>
+          <th>Day</th>
+          <th>Activity</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let itinerary of filteredItineraries">
+          <td>{{itinerary.ItineraryID}}</td>
+          <td>{{itinerary.TravelId}}</td>
+          <td>{{itinerary.Day}}</td>
+          <td>{{itinerary.Activity}}</td>
+          <td>{{itinerary.StartTime}}</td>
+          <td>{{itinerary.EndTime}}</td>
+          <td class="actions">
+            <button mat-icon-button (click)="openEditItineraryDialog(itinerary)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteItinerary(itinerary.ItineraryID!)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div> 

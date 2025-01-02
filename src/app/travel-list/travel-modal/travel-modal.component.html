@@ -1,0 +1,69 @@
+<div class="modal-container">
+  <h2 mat-dialog-title>{{ isEdit ? 'Edit Travel Booking' : 'New Travel Booking' }}</h2>
+  
+  <mat-dialog-content>
+    <form [formGroup]="bookingForm" class="booking-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Employee ID</label>
+          <input type="number" formControlName="EmployeeID">
+        </div>
+
+        <div class="form-group">
+          <label>Travel Mode</label>
+          <select formControlName="TravelMode">
+            <option value="Flight">Flight</option>
+            <option value="Hotel">Hotel</option>
+            <option value="Car Rental">Car Rental</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Provider Name</label>
+          <input type="text" formControlName="ProviderName">
+        </div>
+
+        <div class="form-group">
+          <label>Booking Reference</label>
+          <input type="text" formControlName="BookingReference">
+        </div>
+
+        <div class="form-group">
+          <label>Destination</label>
+          <input type="text" formControlName="destination">
+        </div>
+
+        <div class="form-group">
+          <label>Start Date</label>
+          <input type="date" formControlName="StartDate">
+        </div>
+
+        <div class="form-group">
+          <label>End Date</label>
+          <input type="date" formControlName="EndDate">
+        </div>
+
+        <div class="form-group">
+          <label>Total Cost</label>
+          <input type="number" formControlName="TotalCost">
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select formControlName="Status">
+            <option value="Booked">Booked</option>
+            <option value="Cancelled">Cancelled</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onClose()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!bookingForm.valid">
+      {{ isEdit ? 'Update' : 'Save' }}
+    </button>
+  </mat-dialog-actions>
+</div>

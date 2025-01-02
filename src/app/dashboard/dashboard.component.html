@@ -1,0 +1,108 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-container">
+  <div class="sidebar">
+    <div class="quick-actions">
+      <h3>Quick Actions</h3>
+      <button class="action-btn" (click)="navigateToBooking('flight')">
+        <i class="fas fa-plane"></i> Book Flight
+      </button>
+      <button class="action-btn" (click)="navigateToBooking('hotel')">
+        <i class="fas fa-hotel"></i> Book Hotel
+      </button>
+      <button class="action-btn" (click)="navigateToBooking('car')">
+        <i class="fas fa-car"></i> Rent Car
+      </button>
+    </div>
+    
+    <div class="travel-stats">
+      <h3>Travel Statistics</h3>
+      <div class="stat-item">
+        <span>Total Trips</span>
+        <h4>24</h4>
+      </div>
+      <div class="stat-item">
+        <span>Pending Approvals</span>
+        <h4>3</h4>
+      </div>
+      <div class="stat-item">
+        <span>Total Expenses</span>
+        <h4>$12,450</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="welcome-section">
+      <h1>Welcome back, John!</h1>
+      <p>Here's your travel overview</p>
+    </div>
+
+    <div class="grid-container">
+      <div class="grid-item upcoming-trips">
+        <h3>Upcoming Trips</h3>
+        <div class="trip-card">
+          <div class="trip-info">
+            <h4>New York → London</h4>
+            <p>Dec 15 - Dec 22, 2024</p>
+            <span class="status approved">Approved</span>
+          </div>
+          <div class="trip-actions">
+            <button>View Details</button>
+            <button>Modify</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-item expense-tracker">
+        <h3>Expense Overview</h3>
+        <canvas id="expenseChart"></canvas>
+      </div>
+
+      <div class="grid-item notifications">
+        <h3>Recent Notifications</h3>
+        <div class="notification-item">
+          <i class="fas fa-info-circle"></i>
+          <div class="notification-content">
+            <p>Your flight booking to Paris has been confirmed</p>
+            <span>2 hours ago</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-item quick-booking">
+        <h3>Quick Booking</h3>
+        <form class="quick-booking-form">
+          <div class="form-row">
+            <input type="text" placeholder="From">
+            <input type="text" placeholder="To">
+          </div>
+          <div class="form-row">
+            <input type="date" placeholder="Departure">
+            <input type="date" placeholder="Return">
+          </div>
+          <button type="submit">Search Flights</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-sidebar">
+    <div class="weather-widget">
+      <h3>Weather Updates</h3>
+      <!-- Add weather widget content -->
+    </div>
+    
+    <div class="currency-converter">
+      <h3>Currency Converter</h3>
+      <!-- Add currency converter content -->
+    </div>
+    
+    <div class="travel-tips">
+      <h3>Travel Tips</h3>
+      <!-- Add travel tips content -->
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer> 

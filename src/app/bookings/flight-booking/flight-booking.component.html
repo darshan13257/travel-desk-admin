@@ -1,0 +1,76 @@
+<div class="booking-container">
+  <div class="booking-header">
+    <h2><i class="fas fa-plane"></i> Flight Booking</h2>
+    <p>Search and book your perfect flight</p>
+  </div>
+
+  <form class="booking-form" [formGroup]="flightForm" (ngSubmit)="onSubmit()">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>From</label>
+        <div class="input-icon">
+          <i class="fas fa-plane-departure"></i>
+          <input type="text" formControlName="origin" placeholder="City or Airport">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>To</label>
+        <div class="input-icon">
+          <i class="fas fa-plane-arrival"></i>
+          <input type="text" formControlName="destination" placeholder="City or Airport">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Departure</label>
+        <div class="input-icon">
+          <i class="fas fa-calendar"></i>
+          <input type="date" formControlName="departureDate">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Return</label>
+        <div class="input-icon">
+          <i class="fas fa-calendar-alt"></i>
+          <input type="date" formControlName="returnDate">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Passengers</label>
+        <div class="input-icon">
+          <i class="fas fa-users"></i>
+          <select formControlName="passengers">
+            <option value="1">1 Passenger</option>
+            <option value="2">2 Passengers</option>
+            <option value="3">3 Passengers</option>
+            <option value="4">4 Passengers</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Class</label>
+        <div class="input-icon">
+          <i class="fas fa-chair"></i>
+          <select formControlName="class">
+            <option value="economy">Economy</option>
+            <option value="business">Business</option>
+            <option value="first">First Class</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <button type="button" class="btn-secondary" routerLink="/dashboard">
+        <i class="fas fa-arrow-left"></i> Back
+      </button>
+      <button type="submit" class="btn-primary" [disabled]="!flightForm.valid">
+        <i class="fas fa-search"></i> Search Flights
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,201 @@
+// Variables
+$primary-color: #4299e1;
+$secondary-color: #667eea;
+$text-primary: #2d3748;
+$text-secondary: #4a5568;
+$border-color: #e2e8f0;
+$success-color: #48bb78;
+$error-color: #e53e3e;
+
+.booking-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.booking-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  
+  h2 {
+    font-size: 2rem;
+    color: $text-primary;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    i {
+      color: $primary-color;
+    }
+  }
+
+  p {
+    color: $text-secondary;
+    font-size: 1.1rem;
+  }
+}
+
+.booking-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05),
+              0 10px 15px rgba(0, 0, 0, 0.1);
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .form-group {
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: $text-primary;
+      font-weight: 500;
+    }
+
+    .input-icon {
+      position: relative;
+
+      i {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $text-secondary;
+      }
+
+      input, select {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+        border: 2px solid $border-color;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        appearance: none;
+        background-color: white;
+
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+          box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+        }
+
+        &::placeholder {
+          color: #a0aec0;
+        }
+      }
+
+      select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%234a5568' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+      }
+    }
+  }
+
+  .form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid $border-color;
+
+    button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &.btn-primary {
+        background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+        color: white;
+        border: none;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba($primary-color, 0.2);
+        }
+
+        &:disabled {
+          background: #cbd5e0;
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+        }
+      }
+
+      &.btn-secondary {
+        background: white;
+        color: $text-secondary;
+        border: 2px solid $border-color;
+
+        &:hover {
+          background: $border-color;
+          color: $text-primary;
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.booking-container {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+@media (max-width: 768px) {
+  .booking-form {
+    .form-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .booking-container {
+    margin: 1rem auto;
+  }
+
+  .booking-header {
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .booking-form {
+    padding: 1.5rem;
+
+    .form-footer {
+      flex-direction: column-reverse;
+      gap: 1rem;
+
+      button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+}
