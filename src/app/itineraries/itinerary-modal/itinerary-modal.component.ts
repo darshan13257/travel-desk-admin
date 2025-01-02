@@ -1,6 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Itinerary } from '../../models/itinerary.model';
 
 @Component({
@@ -9,8 +8,13 @@ import { Itinerary } from '../../models/itinerary.model';
   styleUrls: ['./itinerary-modal.component.scss']
 })
 export class ItineraryModalComponent implements OnInit {
+  @Input() visible = false;
+  @Input() isEditMode = false;
+  @Input() itinerary?: Itinerary;
+  @Output() visibleChange = new EventEmitter<boolean>();
+  @Output() save = new EventEmitter<Itinerary>();
+
   itineraryForm!: FormGroup;
-  isEditMode: boolean;
 
   typeOptions = [
     { value: 'traveling', label: 'Traveling' },
@@ -23,21 +27,15 @@ export class ItineraryModalComponent implements OnInit {
     { value: 'road', label: 'By Road' }
   ];
 
-  constructor(
-    private fb: FormBuilder,
-    public dialogRef: MatDialogRef<ItineraryModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { travelId: number; itinerary?: Itinerary }
-  ) {
-    this.isEditMode = !!data.itinerary;
+  constructor(private fb: FormBuilder) {
     this.initForm();
   }
 
   ngOnInit(): void {
-    if (this.isEditMode && this.data.itinerary) {
-      this.itineraryForm.patchValue(this.data.itinerary);
+    if (this.isEditMode && this.itinerary) {
+      this.itineraryForm.patchValue(this.itinerary);
     }
 
-    // Subscribe to type changes to handle dynamic fields
     this.itineraryForm.get('Type')?.valueChanges.subscribe(type => {
       this.updateFormValidators(type);
     });
@@ -45,7 +43,6 @@ export class ItineraryModalComponent implements OnInit {
 
   private initForm(): void {
     this.itineraryForm = this.fb.group({
-      TravelId: [this.data.travelId],
       FromTime: ['', Validators.required],
       ToTime: ['', Validators.required],
       Type: ['', Validators.required],
@@ -90,11 +87,14 @@ export class ItineraryModalComponent implements OnInit {
 
   onSubmit(): void {
     if (this.itineraryForm.valid) {
-      this.dialogRef.close(this.itineraryForm.value);
+      this.save.emit(this.itineraryForm.value);
+      this.visible = false;
+      this.visibleChange.emit(false);
     }
   }
 
   onCancel(): void {
-    this.dialogRef.close();
+    this.visible = false;
+    this.visibleChange.emit(false);
   }
 } 

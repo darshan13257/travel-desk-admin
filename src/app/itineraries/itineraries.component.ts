@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ItineraryService } from '../services/itinerary.service';
-import { ItineraryModalComponent } from './itinerary-modal/itinerary-modal.component';
-import { Itinerary, ItineraryResponse, convertToItinerary } from '../models/itinerary.model';
+import { Itinerary } from '../models/itinerary.model';
 
 @Component({
   selector: 'app-itineraries',
@@ -11,13 +9,14 @@ import { Itinerary, ItineraryResponse, convertToItinerary } from '../models/itin
   styleUrls: ['./itineraries.component.scss']
 })
 export class ItinerariesComponent implements OnInit {
+  showModal = false;
+  selectedItinerary?: Itinerary;
   travelId!: number;
-  itineraries: ItineraryResponse[] = [];
-  filteredItineraries: ItineraryResponse[] = [];
+  itineraries: Itinerary[] = [];
+  filteredItineraries: Itinerary[] = [];
   searchTerm: string = '';
 
   constructor(
-    private dialog: MatDialog,
     private route: ActivatedRoute,
     private itineraryService: ItineraryService
   ) {}
@@ -33,7 +32,7 @@ export class ItinerariesComponent implements OnInit {
 
   loadItineraries(): void {
     this.itineraryService.getItineraries(this.travelId).subscribe({
-      next: (data) => {
+      next: (data: any) => {
         this.itineraries = data;
         this.applyFilters();
       },
@@ -41,6 +40,11 @@ export class ItinerariesComponent implements OnInit {
         console.error('Error loading itineraries:', error);
       }
     });
+  }
+
+  openItineraryModal(itinerary?: Itinerary): void {
+    this.selectedItinerary = itinerary;
+    this.showModal = true;
   }
 
   onSearchChange(value: string): void {
@@ -63,39 +67,31 @@ export class ItinerariesComponent implements OnInit {
     }
   }
 
-  openItineraryModal(response?: ItineraryResponse): void {
-    const itinerary = response ? convertToItinerary(response) : undefined;
-    
-    const dialogRef = this.dialog.open(ItineraryModalComponent, {
-      width: '600px',
-      data: {
-        travelId: this.travelId,
-        itinerary: itinerary
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        if (itinerary?.Id) {
-          this.itineraryService.updateItinerary(itinerary.Id, result).subscribe({
-            next: () => this.loadItineraries(),
-            error: (error) => console.error('Error updating itinerary:', error)
-          });
-        } else {
-          this.itineraryService.createItinerary(result).subscribe({
-            next: () => this.loadItineraries(),
-            error: (error) => console.error('Error creating itinerary:', error)
-          });
-        }
-      }
-    });
-  }
-
   deleteItinerary(id: number): void {
     if (confirm('Are you sure you want to delete this itinerary?')) {
       this.itineraryService.deleteItinerary(id).subscribe({
         next: () => this.loadItineraries(),
         error: (error) => console.error('Error deleting itinerary:', error)
+      });
+    }
+  }
+
+  onSaveItinerary(itinerary: Itinerary): void {
+    if (this.selectedItinerary?.Id) {
+      this.itineraryService.updateItinerary(this.selectedItinerary.Id, itinerary).subscribe({
+        next: () => {
+          this.loadItineraries();
+          this.showModal = false;
+        },
+        error: (error) => console.error('Error updating itinerary:', error)
+      });
+    } else {
+      this.itineraryService.createItinerary({ ...itinerary, TravelId: this.travelId }).subscribe({
+        next: () => {
+          this.loadItineraries();
+          this.showModal = false;
+        },
+        error: (error) => console.error('Error creating itinerary:', error)
       });
     }
   }

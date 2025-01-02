@@ -1,66 +1,145 @@
-.modal-container {
-  padding: 24px;
-  max-width: 600px;
-
-  h2 {
-    margin: 0 0 20px;
-    color: #2d3748;
-    font-size: 1.5rem;
-  }
-
-  .form-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+:host ::ng-deep {
+  .itinerary-modal {
+    .p-dialog-header {
+      padding: 0;
+      border-bottom: none;
     }
 
-    mat-form-field {
+    .modal-header {
+      padding: 1.5rem 1.5rem 1rem;
+      border-bottom: 1px solid #e2e8f0;
       width: 100%;
+
+      h2 {
+        margin: 0 0 0.5rem;
+        font-size: 1.25rem;
+        color: #2d3748;
+        font-weight: 600;
+      }
+
+      .subtitle {
+        margin: 0;
+        color: #718096;
+        font-size: 0.875rem;
+      }
     }
-  }
 
-  .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 24px;
-    padding-top: 16px;
-    border-top: 1px solid #e2e8f0;
+    .p-dialog-content {
+      padding: 1.5rem;
 
-    button {
-      min-width: 100px;
+      .form-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+
+        .field {
+          margin-bottom: 0;
+
+          label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+            font-weight: 500;
+            font-size: 0.875rem;
+          }
+
+          input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 0.375rem;
+            color: #2d3748;
+            transition: all 0.2s;
+
+            &:focus {
+              border-color: #4299e1;
+              box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+              outline: none;
+            }
+
+            &::placeholder {
+              color: #a0aec0;
+            }
+          }
+
+          textarea {
+            min-height: 80px;
+            resize: vertical;
+          }
+        }
+
+        .p-grid {
+          display: flex;
+          gap: 1rem;
+          margin: 0;
+
+          .p-col-6 {
+            flex: 1;
+          }
+        }
+      }
     }
-  }
-}
 
-::ng-deep {
-  .mat-form-field-wrapper {
-    margin: 0;
-    padding: 0;
-  }
+    .p-dialog-footer {
+      padding: 1.25rem 1.5rem;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
 
-  .mat-form-field-flex {
-    background: white;
-  }
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
 
-  .mat-form-field-underline {
-    display: none;
-  }
+        button {
+          min-width: 120px;
 
-  .mat-form-field-infix {
-    border-top: none;
-  }
-}
+          &.p-button-outlined {
+            border-color: #e2e8f0;
+            color: #4a5568;
 
-@media (max-width: 600px) {
-  .form-grid {
-    .form-row {
-      grid-template-columns: 1fr !important;
+            &:hover {
+              background: #f7fafc;
+              border-color: #cbd5e0;
+            }
+          }
+
+          &.p-button {
+            background: #4299e1;
+
+            &:hover {
+              background: #3182ce;
+            }
+
+            &:disabled {
+              background: #e2e8f0;
+              color: #a0aec0;
+            }
+          }
+        }
+      }
+    }
+
+    // Calendar customization
+    .p-calendar {
+      .p-inputtext {
+        width: 100%;
+        padding: 0.75rem;
+      }
+    }
+
+    // Dropdown customization
+    .p-dropdown {
+      border: 1px solid #cbd5e0;
+      border-radius: 0.375rem;
+
+      &:not(.p-disabled).p-focus {
+        border-color: #4299e1;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+      }
+
+      .p-dropdown-label {
+        padding: 0.75rem;
+      }
     }
   }
 } 

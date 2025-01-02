@@ -1,94 +1,175 @@
-<div class="modal-container">
-  <h2 mat-dialog-title>{{ isEditMode ? 'Edit' : 'New' }} Itinerary</h2>
+<p-dialog 
+  [(visible)]="visible" 
+  [modal]="true" 
+  [style]="{width: '500px'}" 
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="onCancel()"
+  styleClass="itinerary-modal">
+  
+  <ng-template pTemplate="header">
+    <div class="modal-header">
+      <h2>{{ isEditMode ? 'Edit' : 'Add New' }} Itinerary</h2>
+      <p class="subtitle">Fill in the details for your itinerary item</p>
+    </div>
+  </ng-template>
 
-  <form [formGroup]="itineraryForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="itineraryForm" class="p-fluid">
     <div class="form-grid">
-      <!-- Common Fields -->
-      <div class="form-row">
-        <mat-form-field>
-          <mat-label>From Time</mat-label>
-          <input matInput type="time" formControlName="FromTime">
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>To Time</mat-label>
-          <input matInput type="time" formControlName="ToTime">
-        </mat-form-field>
+      <!-- Time Selection -->
+      <div class="p-grid">
+        <div class="p-col-6">
+          <div class="field">
+            <label for="fromTime">From Time</label>
+            <p-calendar 
+              id="fromTime"
+              formControlName="FromTime"
+              [timeOnly]="true"
+              [showTime]="true"
+              inputId="timeonly">
+            </p-calendar>
+          </div>
+        </div>
+        <div class="p-col-6">
+          <div class="field">
+            <label for="toTime">To Time</label>
+            <p-calendar 
+              id="toTime"
+              formControlName="ToTime"
+              [timeOnly]="true"
+              [showTime]="true"
+              inputId="timeonly">
+            </p-calendar>
+          </div>
+        </div>
       </div>
 
-      <mat-form-field>
-        <mat-label>Type</mat-label>
-        <mat-select formControlName="Type">
-          <mat-option *ngFor="let option of typeOptions" [value]="option.value">
-            {{option.label}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Description</mat-label>
-        <textarea matInput formControlName="Description" rows="3"></textarea>
-      </mat-form-field>
+      <!-- Type Selection -->
+      <div class="field">
+        <label for="type">Type</label>
+        <p-dropdown
+          id="type"
+          formControlName="Type"
+          [options]="typeOptions"
+          optionLabel="label"
+          optionValue="value"
+          [style]="{'width':'100%'}"
+          placeholder="Select a type">
+        </p-dropdown>
+      </div>
 
       <!-- Dynamic Fields based on Type -->
       <ng-container [ngSwitch]="itineraryForm.get('Type')?.value">
         <!-- Traveling Fields -->
         <ng-container *ngSwitchCase="'traveling'">
-          <div class="form-row">
-            <mat-form-field>
-              <mat-label>From Destination</mat-label>
-              <input matInput formControlName="FromDestination">
-            </mat-form-field>
-
-            <mat-form-field>
-              <mat-label>To Destination</mat-label>
-              <input matInput formControlName="ToDestination">
-            </mat-form-field>
+          <div class="p-grid">
+            <div class="p-col-6">
+              <div class="field">
+                <label for="fromDest">From Destination</label>
+                <input 
+                  id="fromDest"
+                  type="text" 
+                  pInputText 
+                  formControlName="FromDestination">
+              </div>
+            </div>
+            <div class="p-col-6">
+              <div class="field">
+                <label for="toDest">To Destination</label>
+                <input 
+                  id="toDest"
+                  type="text" 
+                  pInputText 
+                  formControlName="ToDestination">
+              </div>
+            </div>
           </div>
 
-          <mat-form-field>
-            <mat-label>Booking ID</mat-label>
-            <input matInput formControlName="BookingId">
-          </mat-form-field>
+          <div class="field">
+            <label for="bookingId">Booking ID</label>
+            <input 
+              id="bookingId"
+              type="text" 
+              pInputText 
+              formControlName="BookingId">
+          </div>
 
-          <mat-form-field>
-            <mat-label>Travel By</mat-label>
-            <mat-select formControlName="TravelBy">
-              <mat-option *ngFor="let option of travelByOptions" [value]="option.value">
-                {{option.label}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div class="field">
+            <label for="travelBy">Travel By</label>
+            <p-dropdown
+              id="travelBy"
+              formControlName="TravelBy"
+              [options]="travelByOptions"
+              optionLabel="label"
+              optionValue="value"
+              [style]="{'width':'100%'}"
+              placeholder="Select travel mode">
+            </p-dropdown>
+          </div>
         </ng-container>
 
         <!-- Stay Fields -->
         <ng-container *ngSwitchCase="'stay'">
-          <mat-form-field>
-            <mat-label>Location</mat-label>
-            <input matInput formControlName="Location">
-          </mat-form-field>
+          <div class="field">
+            <label for="location">Location</label>
+            <input 
+              id="location"
+              type="text" 
+              pInputText 
+              formControlName="Location">
+          </div>
 
-          <mat-form-field>
-            <mat-label>Booking ID</mat-label>
-            <input matInput formControlName="BookingId">
-          </mat-form-field>
+          <div class="field">
+            <label for="stayBookingId">Booking ID</label>
+            <input 
+              id="stayBookingId"
+              type="text" 
+              pInputText 
+              formControlName="BookingId">
+          </div>
         </ng-container>
 
         <!-- Miscellaneous Fields -->
         <ng-container *ngSwitchCase="'miscellaneous'">
-          <mat-form-field>
-            <mat-label>Location</mat-label>
-            <input matInput formControlName="Location">
-          </mat-form-field>
+          <div class="field">
+            <label for="miscLocation">Location</label>
+            <input 
+              id="miscLocation"
+              type="text" 
+              pInputText 
+              formControlName="Location">
+          </div>
         </ng-container>
       </ng-container>
-    </div>
 
-    <div class="form-actions">
-      <button type="button" mat-button (click)="onCancel()">Cancel</button>
-      <button type="submit" mat-raised-button color="primary" [disabled]="!itineraryForm.valid">
-        {{ isEditMode ? 'Update' : 'Create' }}
-      </button>
+      <!-- Description Field -->
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea 
+          id="description"
+          pInputTextarea 
+          formControlName="Description"
+          [rows]="3"
+          [autoResize]="true">
+        </textarea>
+      </div>
     </div>
   </form>
-</div> 
+
+  <ng-template pTemplate="footer">
+    <div class="modal-footer">
+      <button 
+        pButton 
+        label="Cancel" 
+        class="p-button-outlined p-button-secondary" 
+        (click)="onCancel()">
+      </button>
+      <button 
+        pButton 
+        [label]="isEditMode ? 'Update' : 'Create'" 
+        [disabled]="!itineraryForm.valid"
+        (click)="onSubmit()">
+      </button>
+    </div>
+  </ng-template>
+</p-dialog> 
