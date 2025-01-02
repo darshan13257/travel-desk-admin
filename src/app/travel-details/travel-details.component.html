@@ -17,25 +17,28 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="providerName">Provider Name*</label>
-          <div class="input-wrapper">
-            <i class="fas fa-building"></i>
-            <input id="providerName" 
-                   type="text" 
-                   formControlName="ProviderName"
-                   placeholder="Enter provider name">
+        <div>
+          <div class="form-group"></div>
+          <label for="providerName">Sponsered By*</label>
+          <div class="select-wrapper">
+            <select id="providerName" formControlName="providerName">
+              <option value="">Select any</option>
+              <option *ngFor="let location of sponseredBy" [value]="location.value">
+                {{location.label}}
+              </option>
+            </select>
           </div>
         </div>
+        
 
-        <div class="form-group">
+        <div class="form-group"  style="display: none;">
           <label for="bookingReference">Booking Reference*</label>
           <div class="input-wrapper">
             <i class="fas fa-ticket"></i>
             <input id="bookingReference" 
                    type="text" 
                    formControlName="BookingReference"
-                   placeholder="Enter booking reference">
+                   placeholder="Enter booking reference" value="123456">
           </div>
         </div>
 

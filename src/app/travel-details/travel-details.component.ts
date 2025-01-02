@@ -30,6 +30,11 @@ export class TravelDetailsComponent implements OnInit {
     { id: 5, name: 'Kolkata' }
   ];
 
+  sponseredBy = [
+    { label: 'Self', value: 1 },
+    { label: 'Organisation', value: 2 }
+  ];
+
   constructor(
     private fb: FormBuilder,
     private travelBookingService: TravelBookingService,
@@ -45,8 +50,8 @@ export class TravelDetailsComponent implements OnInit {
       EmployeeID: [0],
       AdminID: [0],
       TravelMode: ['', Validators.required],
-      ProviderName: ['', Validators.required],
-      BookingReference: ['', Validators.required],
+      ProviderName: [0, Validators.required],
+      BookingReference: ['123456'],
       StartDate: ['', Validators.required],
       EndDate: ['', Validators.required],
       TotalCost: [0, Validators.required],
