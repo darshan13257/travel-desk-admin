@@ -28,7 +28,7 @@
   </div>
 
   <div class="table-container">
-    <table>
+    <table *ngIf="filteredBookings.length > 0">
       <thead>
         <tr>
           <th>Travel ID</th>
@@ -71,5 +71,13 @@
         </tr>
       </tbody>
     </table>
+
+    <div *ngIf="filteredBookings.length === 0" class="no-records">
+      <i class="fas fa-inbox"></i>
+      <p>No travel bookings found</p>
+      <button class="btn-primary" (click)="onNewTravel()">
+        Create New Travel Booking
+      </button>
+    </div>
   </div>
 </div>
