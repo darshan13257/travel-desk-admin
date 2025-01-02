@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TravelBookingService } from '../services/travel-booking.service';
-import { TravelBooking } from '../models/travel-booking.model';
+import { TravelBookingResponse } from '../models/travel-booking.model';
 
 @Component({
   selector: 'app-travel-list',
@@ -9,17 +9,17 @@ import { TravelBooking } from '../models/travel-booking.model';
   styleUrls: ['./travel-list.component.scss']
 })
 export class TravelListComponent implements OnInit {
-  bookings: TravelBooking[] = [];
-  filteredBookings: TravelBooking[] = [];
+  bookings: TravelBookingResponse[] = [];
+  filteredBookings: TravelBookingResponse[] = [];
   searchTerm: string = '';
   selectedStatus: string = 'all';
 
   statusOptions = [
-    { value: 'all', label: 'All' },
-    { value: 'ongoing', label: 'Ongoing' },
-    { value: 'future', label: 'Future' },
-    { value: 'completed', label: 'Completed' },
-    { value: 'cancelled', label: 'Cancelled' }
+    { value: 'all', label: 'All Status' },
+    { value: 'To be approved', label: 'To Be Approved' },
+    { value: 'Approved', label: 'Approved' },
+    { value: 'Rejected', label: 'Rejected' },
+    { value: 'Cancelled', label: 'Cancelled' }
   ];
 
   constructor(
@@ -67,58 +67,35 @@ export class TravelListComponent implements OnInit {
     this.applyFilters();
   }
 
-  private applyFilters(): void {
+  applyFilters(): void {
     let filtered = [...this.bookings];
 
-    // Apply search filter
     if (this.searchTerm) {
       const search = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(booking =>
-        booking.Destination.toLowerCase().includes(search) ||
-        booking.Source.toLowerCase().includes(search) ||
-        booking.Purpose.toLowerCase().includes(search)
+      filtered = filtered.filter(item => 
+        item.Booking.ToLocation.LocationName.toLowerCase().includes(search) ||
+        item.Booking.FromLocation.LocationName.toLowerCase().includes(search) ||
+        item.Booking.TravelMode.toLowerCase().includes(search) ||
+        item.User.Name.toLowerCase().includes(search)
       );
     }
 
-    // Apply status filter
     if (this.selectedStatus !== 'all') {
-      const today = new Date();
-      filtered = filtered.filter(booking => {
-        const status = this.getTravelStatus(booking);
-        return status.toLowerCase() === this.selectedStatus;
-      });
+      filtered = filtered.filter(item => 
+        item.Booking.Status === this.selectedStatus
+      );
     }
 
     this.filteredBookings = filtered;
   }
 
-  getTravelStatus(booking: TravelBooking): string {
-    const today = new Date();
-    const startDate = new Date(booking.StartDate);
-    const endDate = new Date(booking.EndDate);
-    
-    if (booking.Status === 'Cancelled') {
-      return 'cancelled';
-    }
-    
-    if (startDate <= today && endDate >= today) {
-      return 'ongoing';
-    } else if (startDate > today) {
-      return 'future';
-    } else if (endDate < today) {
-      return 'completed';
-    }
-    
-    return booking.Status.toLowerCase();
-  }
-
   getStatusClass(status: string): string {
     const statusMap: { [key: string]: string } = {
-      'ongoing': 'status-ongoing',
-      'future': 'status-future',
-      'completed': 'status-completed',
-      'cancelled': 'status-cancelled'
+      'To be approved': 'status-to-be-approved',
+      'Approved': 'status-approved',
+      'Rejected': 'status-rejected',
+      'Cancelled': 'status-cancelled'
     };
-    return statusMap[status.toLowerCase()] || '';
+    return statusMap[status] || '';
   }
 }

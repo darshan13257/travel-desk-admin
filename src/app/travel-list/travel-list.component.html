@@ -31,10 +31,12 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
+          <th>Travel ID</th>
+          <th>User</th>
           <th>Travel Mode</th>
           <th>Provider</th>
-          <th>Destination</th>
+          <th>From</th>
+          <th>To</th>
           <th>Start Date</th>
           <th>End Date</th>
           <th>Total Cost</th>
@@ -43,24 +45,26 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let booking of filteredBookings">
-          <td>{{booking.BookingID}}</td>
-          <td>{{booking.TravelMode}}</td>
-          <td>{{booking.ProviderName}}</td>
-          <td>{{booking.Destination}}</td>
-          <td>{{booking.StartDate | date:'mediumDate'}}</td>
-          <td>{{booking.EndDate | date:'mediumDate'}}</td>
-          <td>{{booking.TotalCost | currency:'USD':'symbol'}}</td>
+        <tr *ngFor="let item of filteredBookings">
+          <td>{{item.Booking.TravelId}}</td>
+          <td>{{item.User.Name}}</td>
+          <td>{{item.Booking.TravelMode}}</td>
+          <td>{{item.Booking.ProviderName}}</td>
+          <td>{{item.Booking.FromLocation.LocationName}}</td>
+          <td>{{item.Booking.ToLocation.LocationName}}</td>
+          <td>{{item.Booking.StartDate | date:'mediumDate'}}</td>
+          <td>{{item.Booking.EndDate | date:'mediumDate'}}</td>
+          <td>{{item.Booking.TotalCost | currency:'USD':'symbol'}}</td>
           <td>
-            <span class="status-badge" [class]="getStatusClass(getTravelStatus(booking))">
-              {{getTravelStatus(booking) | titlecase}}
+            <span class="status-badge" [class]="'status-' + item.Booking.Status.toLowerCase().replace(' ', '-')">
+              {{item.Booking.Status}}
             </span>
           </td>
           <td class="actions">
-            <button mat-icon-button (click)="onEditTravel(booking.BookingID!)">
+            <button mat-icon-button (click)="onEditTravel(item.Booking.TravelId)">
               <i class="fas fa-edit"></i>
             </button>
-            <button mat-icon-button color="warn" (click)="deleteBooking(booking.BookingID!)">
+            <button mat-icon-button color="warn" (click)="deleteBooking(item.Booking.TravelId)">
               <i class="fas fa-trash"></i>
             </button>
           </td>
